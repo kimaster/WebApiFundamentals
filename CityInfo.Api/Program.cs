@@ -15,14 +15,26 @@ var builder = WebApplication.CreateBuilder(args);
 //*/
 // Add services to the container.
 
-builder.Services.AddControllers();
-builder.Services.AddMvc();
+builder.Services.AddControllers(options =>
+{
+    options.ReturnHttpNotAcceptable = true;
+});
+
+builder.Services.AddProblemDetails(options =>
+
+{
+    options.CustomizeProblemDetails = context =>
+    {
+        context.ProblemDetails.Extensions.Add("addtionInformation", "addint info example");
+    };
+
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 //*sawaggger information**/
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
- 
+
 
 var app = builder.Build();
 
