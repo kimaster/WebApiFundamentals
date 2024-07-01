@@ -1,4 +1,5 @@
 ﻿using CityInfo.Api.Data;
+using CityInfo.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CityInfo.Api.Controllers
@@ -17,7 +18,8 @@ namespace CityInfo.Api.Controllers
         // [HttpGet("api/cities")] --move this to controller level
 
         [HttpGet()]// now no need as this only one get 
-        public JsonResult GetCities()
+                   //    public JsonResult GetCities()
+        public ActionResult<IEnumerable<CityDto>> GetCities()
         {
 
             //return new JsonResult(
@@ -31,12 +33,12 @@ namespace CityInfo.Api.Controllers
             //    );
             var temp = new JsonResult(CityDataStore.Current.Cities);
             temp.StatusCode = 200;
-            return
+            return Ok(CityDataStore.Current.Cities);
         }
 
 
         [HttpGet("{id}")]// now no need as this only one get 
-        public JsonResult GetCity(int id)
+        public ActionResult<CityDto> GetCity(int id)
         {
 
             //return new JsonResult(
@@ -76,8 +78,16 @@ namespace CityInfo.Api.Controllers
             // 500 internal server error 
             */
 
+            var city = CityDataStore.Current.Cities.FirstOrDefault(xx => xx.Id == id);
 
-            return new JsonResult(CityDataStore.Current.Cities.Where(xx => xx.Id == id));
+            if (city == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(city);
+
+
         }
 
     }
