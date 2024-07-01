@@ -1,6 +1,14 @@
+using Microsoft.Extensions.WebEncoders.Testing;
+
 var builder = WebApplication.CreateBuilder(args);
 
+/*
+ 
+ 1- builder.Services.AddControllers()
 
+        1-1 builder.Services.AddMvc();
+ 
+ */
 //* adding and configuring service
 //
 //
@@ -8,10 +16,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddMvc();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 //*sawaggger information**/
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+ 
 
 var app = builder.Build();
 
@@ -23,14 +34,36 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-app.UseSwaggerUI();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+//older versoipm
+// app.UseRouting();
+// use the ogic for selction the routing wich controller and action need to be executed
+
+
 app.UseAuthorization();
 
-app.MapControllers();
 
-app.Run(async context => await context.Response.WriteAsync("salem alikom"));
+
+
+
+//app.UseEndpoints(endpoints => endpoints.MapControllers());
+// calling the endpoints
+
+
+// this is need to map the routing  for the controller 
+// endpoint routing 
+//https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-8.0
+// this is short cut as this is mapController the Webapplication object emplmmnet  implement UseRouting() IEndpointRouting
+//app.MapControllers();
+
+app.UseEndpoints(
+    endpoints =>
+endpoints.MapControllers());
+
+
 app.Run();
