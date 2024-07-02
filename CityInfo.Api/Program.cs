@@ -1,4 +1,5 @@
 using Microsoft.Extensions.WebEncoders.Testing;
+using System.Reflection.PortableExecutable;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(options =>
 {
+    //set the not support media type
     options.ReturnHttpNotAcceptable = true;
+    
 });
 
 builder.Services.AddProblemDetails(options =>
@@ -26,6 +29,7 @@ builder.Services.AddProblemDetails(options =>
     options.CustomizeProblemDetails = context =>
     {
         context.ProblemDetails.Extensions.Add("addtionInformation", "addint info example");
+        context.ProblemDetails.Extensions.Add("server", Environment.MachineName);
     };
 
 });
