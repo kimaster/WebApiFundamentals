@@ -21,7 +21,7 @@ builder.Services.AddControllers(options =>
     //set the not support media type
     options.ReturnHttpNotAcceptable = true;
     
-});
+}).AddXmlDataContractSerializerFormatters();
 
 builder.Services.AddProblemDetails(options =>
 
