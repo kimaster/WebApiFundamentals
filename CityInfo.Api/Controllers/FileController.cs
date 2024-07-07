@@ -28,7 +28,7 @@ namespace CityInfo.Api.Controllers
             {
                 contentType = "application/octet-stream";
             }
-            return File(bytes, "text/plain", "README.md");
+            return File(bytes, "text/plain", "README.txt");
      
        //     return File(bytes, contentType, "README.md");
 

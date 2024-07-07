@@ -66,7 +66,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting();
-//older versoipm
+//older version
 // app.UseRouting();
 // use the ogic for selction the routing wich controller and action need to be executed
 
