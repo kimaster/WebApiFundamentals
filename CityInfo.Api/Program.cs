@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.WebEncoders.Testing;
 using System.Reflection.PortableExecutable;
 
@@ -20,6 +22,12 @@ builder.Services.AddControllers(options =>
 {
     //set the not support media type
     options.ReturnHttpNotAcceptable = true;
+
+    // formatter
+    // firt formatter is the defaulkt one
+
+    options.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+
     
 }).AddXmlDataContractSerializerFormatters();
 
@@ -37,6 +45,8 @@ builder.Services.AddProblemDetails(options =>
 //*sawaggger information**/
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
 
 
 

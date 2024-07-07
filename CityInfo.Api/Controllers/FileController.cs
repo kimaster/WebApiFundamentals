@@ -1,0 +1,62 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+namespace CityInfo.Api.Controllers
+{
+    [Route("api/files")]
+    [ApiController]
+    public class FileController : ControllerBase
+    {
+        private readonly FileExtensionContentTypeProvider fileExtensionContentTypeProvider;
+
+        public FileController(FileExtensionContentTypeProvider fileExtensionContentTypeProvider)
+        {
+            this.fileExtensionContentTypeProvider = fileExtensionContentTypeProvider;
+        }
+        // GET: api/<FileController>
+        [HttpGet]
+        public ActionResult Get()
+        {
+            //FileResult result = new FileResult();
+            //FileStreamResult result1 = new FileStreamResult();
+            //FileResult result2 = new FileResult);
+            //PhysicalFileResult result3 = new PhysicalFileResult();
+            var bytes = System.IO.File.ReadAllBytes("README.txt");
+            if (!fileExtensionContentTypeProvider.TryGetContentType("README.txt", out var contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+            return File(bytes, "text/plain", "README.md");
+     
+       //     return File(bytes, contentType, "README.md");
+
+        }
+
+        // GET api/<FileController>/5
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+        // POST api/<FileController>
+        [HttpPost]
+        public void Post([FromBody] string value)
+        {
+        }
+
+        // PUT api/<FileController>/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
+        {
+        }
+
+        // DELETE api/<FileController>/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+        }
+    }
+}
