@@ -10,7 +10,7 @@ namespace CityInfo.Api.Controllers
     [ApiController]
     public class PointOfInterestController : ControllerBase
     {
-        [HttpGet("{pointOfInterestId}")]
+        [HttpGet("{pointOfInterestId}", Name = "GetPointOfInterest")]
         public ActionResult<IEnumerable<PointOfInterestDto>> GetPointOfInterest(int cityId, int pointOfInterestId)
         {
             var city = CityDataStore.Current.Cities.FirstOrDefault(xx => xx.Id == cityId);
@@ -29,5 +29,52 @@ namespace CityInfo.Api.Controllers
 
             return Ok(pointOfInterest);
         }
+        [HttpPost()]
+        public ActionResult<PointOfInterestDto> CreatePointOfInterest(int cityId, [FromBody] PointOfInterestCreationDto pointOfInterestCreationDto)
+
+        {
+            var city = CityDataStore.Current.Cities.FirstOrDefault(xx => xx.Id == cityId);
+
+            if (city == null)
+            {
+                return NotFound();
+            }
+
+
+
+            var pointOfInterestId = CityDataStore
+                    .Current
+                    .Cities
+                    .SelectMany(p => p.PointsOfInterest)
+                    .Max(x => x.Id);
+
+            var pointOfInterest = new PointOfInterestDto
+            {
+                Id = ++pointOfInterestId,
+                Name = pointOfInterestCreationDto.Name,
+                Discription = pointOfInterestCreationDto.Discription
+            };
+
+            city.PointsOfInterest.Add(pointOfInterest);
+
+            return CreatedAtRoute(
+                nameof(GetPointOfInterest),
+                new
+                {
+                    cityId,
+                    pointOfInterestId = pointOfInterest.Id,
+                },
+                pointOfInterest);
+
+
+        }
     }
+
+
+
+
+
+
+
+
 }
