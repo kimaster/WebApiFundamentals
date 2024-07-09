@@ -9,7 +9,7 @@ namespace CityInfo.Api.Models
         public string Name { get; set; }
 
         [MaxLength(200)]
-        public string Discription { get; set; }
+        public string Description { get; set; }
     }
 
 

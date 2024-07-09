@@ -29,7 +29,8 @@ builder.Services.AddControllers(options =>
     options.OutputFormatters.Add(new XmlSerializerOutputFormatter());
 
     
-}).AddXmlDataContractSerializerFormatters();
+}).AddNewtonsoftJson()
+.AddXmlDataContractSerializerFormatters();
 
 builder.Services.AddProblemDetails(options =>
 

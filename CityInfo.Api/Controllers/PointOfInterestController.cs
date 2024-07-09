@@ -1,6 +1,7 @@
 ﻿using CityInfo.Api.Data;
 using CityInfo.Api.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CityInfo.Api.Controllers
@@ -52,7 +53,7 @@ namespace CityInfo.Api.Controllers
             {
                 Id = ++pointOfInterestId,
                 Name = pointOfInterestCreationDto.Name,
-                Discription = pointOfInterestCreationDto.Discription
+                Description = pointOfInterestCreationDto.Discription
             };
 
             city.PointsOfInterest.Add(pointOfInterest);
@@ -89,8 +90,52 @@ namespace CityInfo.Api.Controllers
                 return NotFound();
             }
 
-            pointOfInterest.Discription = pointOfInterestUpdateDto.Discription;
+            pointOfInterest.Description = pointOfInterestUpdateDto.Description;
             pointOfInterest.Name = pointOfInterestUpdateDto.Name;
+
+            return NoContent();// Ok(pointOfInterest);
+        }
+
+
+        [HttpPatch("{pointOfInterestid}")]
+        public ActionResult PartialUpdatePointOfInterest(int cityId, int pointOfInterestId,
+            JsonPatchDocument<PointOfInterestUpdateDto> patchDocment)
+        {
+
+            var city = CityDataStore.Current.Cities.FirstOrDefault(xx => xx.Id == cityId);
+
+            if (city == null)
+            {
+                return NotFound();
+            }
+
+
+
+            var pointOfInterest = city.PointsOfInterest.FirstOrDefault(x => x.Id == pointOfInterestId);
+
+            if (pointOfInterest == null)
+            {
+                return NotFound();
+            }
+
+            var pointOfInterestToPach = new PointOfInterestUpdateDto()
+            {
+
+                Name = pointOfInterest.Name,
+                Description = pointOfInterest.Description,
+            };
+
+
+            patchDocment.ApplyTo(pointOfInterestToPach, ModelState);
+
+            if (ModelState.IsValid==false)
+            {
+                return BadRequest();
+
+            }    
+
+            pointOfInterest.Name= pointOfInterestToPach.Name;
+            pointOfInterest.Description= pointOfInterestToPach.Description;
 
             return NoContent();// Ok(pointOfInterest);
         }
