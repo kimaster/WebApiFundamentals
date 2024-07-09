@@ -68,6 +68,33 @@ namespace CityInfo.Api.Controllers
 
 
         }
+
+        [HttpPut("{pointOfInterestid}")]
+        public ActionResult UpdatePointOfInterest(int cityId, int pointOfInterestId, PointOfInterestUpdateDto pointOfInterestUpdateDto)
+        {
+
+            var city = CityDataStore.Current.Cities.FirstOrDefault(xx => xx.Id == cityId);
+
+            if (city == null)
+            {
+                return NotFound();
+            }
+
+
+
+            var pointOfInterest = city.PointsOfInterest.FirstOrDefault(x => x.Id == pointOfInterestId);
+
+            if (pointOfInterest == null)
+            {
+                return NotFound();
+            }
+
+            pointOfInterest.Discription = pointOfInterestUpdateDto.Discription;
+            pointOfInterest.Name = pointOfInterestUpdateDto.Name;
+
+            return NoContent();// Ok(pointOfInterest);
+        }
+
     }
 
 
