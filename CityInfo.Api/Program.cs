@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.Extensions.WebEncoders.Testing;
-using System.Reflection.PortableExecutable;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders(); 
 
 /*
  

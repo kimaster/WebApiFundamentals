@@ -11,6 +11,12 @@ namespace CityInfo.Api.Controllers
     [ApiController]
     public class PointOfInterestController : ControllerBase
     {
+        private readonly ILogger<PointOfInterestController> _logger;
+
+        public PointOfInterestController(ILogger<PointOfInterestController> logger)
+        {
+            this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
         [HttpGet("{pointOfInterestId}", Name = "GetPointOfInterest")]
         public ActionResult<IEnumerable<PointOfInterestDto>> GetPointOfInterest(int cityId, int pointOfInterestId)
         {
@@ -18,7 +24,9 @@ namespace CityInfo.Api.Controllers
 
             if (city == null)
             {
+                _logger.LogInformation($" the city is not exnn{city}");
                 return NotFound();
+
             }
 
             var pointOfInterest = city.PointsOfInterest.FirstOrDefault(x => x.Id == pointOfInterestId);
@@ -35,6 +43,7 @@ namespace CityInfo.Api.Controllers
 
         {
             var city = CityDataStore.Current.Cities.FirstOrDefault(xx => xx.Id == cityId);
+            _logger.LogWarning($" the city is not exnn{city}");
 
             if (city == null)
             {
@@ -128,14 +137,14 @@ namespace CityInfo.Api.Controllers
 
             patchDocment.ApplyTo(pointOfInterestToPach, ModelState);
 
-            if (ModelState.IsValid==false)
+            if (ModelState.IsValid == false)
             {
                 return BadRequest();
 
-            }    
+            }
 
-            pointOfInterest.Name= pointOfInterestToPach.Name;
-            pointOfInterest.Description= pointOfInterestToPach.Description;
+            pointOfInterest.Name = pointOfInterestToPach.Name;
+            pointOfInterest.Description = pointOfInterestToPach.Description;
 
             return NoContent();// Ok(pointOfInterest);
         }

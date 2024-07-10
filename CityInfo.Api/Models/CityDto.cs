@@ -1,4 +1,5 @@
-﻿namespace CityInfo.Api.Models
+﻿#nullable disable
+namespace CityInfo.Api.Models
 {
     public class CityDto
     {
@@ -6,7 +7,7 @@
 
         public string Name { get; set; }
 
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         public int NumberOfPointOfInterest
         {
