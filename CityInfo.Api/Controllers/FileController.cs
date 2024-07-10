@@ -42,15 +42,17 @@ namespace CityInfo.Api.Controllers
             {
                 return BadRequest();
 
-                var path = Path.Combine(Directory.GetCurrentDirectory(), $"Uplooaded_file_{Guid.NewGuid()}.pdf");
 
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
 
-                return Ok("file created on this location:)_");
             }
+            var path = Path.Combine(Directory.GetCurrentDirectory(), $"Uplooaded_file_{Guid.NewGuid()}.pdf");
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return Ok("file created on this location:)_");
         }
 
         // GET api/<FileController>/5
