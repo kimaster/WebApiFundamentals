@@ -29,9 +29,28 @@ namespace CityInfo.Api.Controllers
                 contentType = "application/octet-stream";
             }
             return File(bytes, "text/plain", "README.txt");
-     
-       //     return File(bytes, contentType, "README.md");
 
+            //     return File(bytes, contentType, "README.md");
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateFile(IFormFile file)
+        {
+            if (file == null || file.Length == 0 || file.Length < 209712520
+                || file.ContentType != "application/pdf")
+            {
+                return BadRequest();
+
+                var path = Path.Combine(Directory.GetCurrentDirectory(), $"Uplooaded_file_{Guid.NewGuid()}.pdf");
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                return Ok("file created on this location:)_");
+            }
         }
 
         // GET api/<FileController>/5
