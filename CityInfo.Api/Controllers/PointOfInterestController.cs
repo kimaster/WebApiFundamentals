@@ -1,5 +1,6 @@
 ﻿using CityInfo.Api.Data;
 using CityInfo.Api.Models;
+using CityInfo.Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -12,15 +13,17 @@ namespace CityInfo.Api.Controllers
     public class PointOfInterestController : ControllerBase
     {
         private readonly ILogger<PointOfInterestController> _logger;
-
-        public PointOfInterestController(ILogger<PointOfInterestController> logger)
+        private readonly IMailService _localMailService;
+        public PointOfInterestController(ILogger<PointOfInterestController> logger, IMailService localMachineServices)
         {
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this._localMailService = localMachineServices ?? throw new ArgumentNullException(nameof(localMachineServices)); ;
         }
         [HttpGet("{pointOfInterestId}", Name = "GetPointOfInterest")]
         public ActionResult<IEnumerable<PointOfInterestDto>> GetPointOfInterest(int cityId, int pointOfInterestId)
         {
-            throw new NotImplementedException();
+            _localMailService.Send("mama", "baba");
+            //  throw new NotImplementedException();
             var city = CityDataStore.Current.Cities.FirstOrDefault(xx => xx.Id == cityId);
 
             if (city == null)
