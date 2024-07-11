@@ -20,6 +20,7 @@ namespace CityInfo.Api.Controllers
         [HttpGet("{pointOfInterestId}", Name = "GetPointOfInterest")]
         public ActionResult<IEnumerable<PointOfInterestDto>> GetPointOfInterest(int cityId, int pointOfInterestId)
         {
+            throw new NotImplementedException();
             var city = CityDataStore.Current.Cities.FirstOrDefault(xx => xx.Id == cityId);
 
             if (city == null)

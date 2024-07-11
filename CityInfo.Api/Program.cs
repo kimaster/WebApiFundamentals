@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Hosting;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Logging.ClearProviders(); 
+builder.Logging.ClearProviders();
+
+
 
 /*
  
@@ -29,20 +32,20 @@ builder.Services.AddControllers(options =>
 
     options.OutputFormatters.Add(new XmlSerializerOutputFormatter());
 
-    
+
 }).AddNewtonsoftJson()
 .AddXmlDataContractSerializerFormatters();
+builder.Services.AddProblemDetails();
+//builder.Services.AddProblemDetails(options =>
 
-builder.Services.AddProblemDetails(options =>
+//{
+//    options.CustomizeProblemDetails = context =>
+//    {
+//        context.ProblemDetails.Extensions.Add("addtionInformation", "addint info example");
+//        context.ProblemDetails.Extensions.Add("server", Environment.MachineName);
+//    };
 
-{
-    options.CustomizeProblemDetails = context =>
-    {
-        context.ProblemDetails.Extensions.Add("addtionInformation", "addint info example");
-        context.ProblemDetails.Extensions.Add("server", Environment.MachineName);
-    };
-
-});
+//});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 //*sawaggger information**/
 builder.Services.AddEndpointsApiExplorer();
@@ -56,7 +59,10 @@ var app = builder.Build();
 
 
 // configuring middle ware that handle the httprequests
-
+if (app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler();
+}
 
 //Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
