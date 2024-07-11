@@ -1,3 +1,4 @@
+using CityInfo.Api.Data;
 using CityInfo.Api.Services;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.StaticFiles;
@@ -69,7 +70,10 @@ builder.Services.AddTransient<IMailService, LocalMailService>();
 #else
 
 builder.Services.AddTransient<IMailService,CloudMailService>();
+
+
 #endif
+builder.Services.AddSingleton<CityDataStore>();
 var app = builder.Build();
 
 

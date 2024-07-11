@@ -15,6 +15,14 @@ namespace CityInfo.Api.Controllers
     [Route("api/cities")]
     public class CitiesController : ControllerBase
     {
+
+        public CitiesController(CityDataStore cityDataStore)
+        {
+            CityDataStore = cityDataStore;
+        }
+
+        public CityDataStore CityDataStore { get; }
+
         // [HttpGet("api/cities")] --move this to controller level
 
         [HttpGet()]// now no need as this only one get 
@@ -31,9 +39,9 @@ namespace CityInfo.Api.Controllers
 
             //   }
             //    );
-            var temp = new JsonResult(CityDataStore.Current.Cities);
+            var temp = new JsonResult(CityDataStore.Cities);
             temp.StatusCode = 200;
-            return Ok(CityDataStore.Current.Cities);
+            return Ok(CityDataStore.Cities);
         }
 
 
@@ -78,7 +86,7 @@ namespace CityInfo.Api.Controllers
             // 500 internal server error 
             */
 
-            var city = CityDataStore.Current.Cities.FirstOrDefault(xx => xx.Id == id);
+            var city = CityDataStore.Cities.FirstOrDefault(xx => xx.Id == id);
 
             if (city == null)
             {

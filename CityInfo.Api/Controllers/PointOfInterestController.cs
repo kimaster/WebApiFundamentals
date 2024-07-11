@@ -14,17 +14,23 @@ namespace CityInfo.Api.Controllers
     {
         private readonly ILogger<PointOfInterestController> _logger;
         private readonly IMailService _localMailService;
-        public PointOfInterestController(ILogger<PointOfInterestController> logger, IMailService localMachineServices)
+
+        public CityDataStore CityDataStore { get; }
+
+        public PointOfInterestController(ILogger<PointOfInterestController> logger,
+            IMailService localMachineServices,
+            CityDataStore cityDataStore)
         {
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this._localMailService = localMachineServices ?? throw new ArgumentNullException(nameof(localMachineServices)); ;
+            this._localMailService = localMachineServices ?? throw new ArgumentNullException(nameof(localMachineServices)); CityDataStore = cityDataStore;
+            ;
         }
         [HttpGet("{pointOfInterestId}", Name = "GetPointOfInterest")]
         public ActionResult<IEnumerable<PointOfInterestDto>> GetPointOfInterest(int cityId, int pointOfInterestId)
         {
             _localMailService.Send("mama", "baba");
             //  throw new NotImplementedException();
-            var city = CityDataStore.Current.Cities.FirstOrDefault(xx => xx.Id == cityId);
+            var city = CityDataStore.Cities.FirstOrDefault(xx => xx.Id == cityId);
 
             if (city == null)
             {
@@ -46,7 +52,7 @@ namespace CityInfo.Api.Controllers
         public ActionResult<PointOfInterestDto> CreatePointOfInterest(int cityId, [FromBody] PointOfInterestCreationDto pointOfInterestCreationDto)
 
         {
-            var city = CityDataStore.Current.Cities.FirstOrDefault(xx => xx.Id == cityId);
+            var city = CityDataStore.Cities.FirstOrDefault(xx => xx.Id == cityId);
             _logger.LogWarning($" the city is not exnn{city}");
 
             if (city == null)
@@ -57,7 +63,6 @@ namespace CityInfo.Api.Controllers
 
 
             var pointOfInterestId = CityDataStore
-                    .Current
                     .Cities
                     .SelectMany(p => p.PointsOfInterest)
                     .Max(x => x.Id);
@@ -87,7 +92,7 @@ namespace CityInfo.Api.Controllers
         public ActionResult UpdatePointOfInterest(int cityId, int pointOfInterestId, PointOfInterestUpdateDto pointOfInterestUpdateDto)
         {
 
-            var city = CityDataStore.Current.Cities.FirstOrDefault(xx => xx.Id == cityId);
+            var city = CityDataStore.Cities.FirstOrDefault(xx => xx.Id == cityId);
 
             if (city == null)
             {
@@ -115,7 +120,7 @@ namespace CityInfo.Api.Controllers
             JsonPatchDocument<PointOfInterestUpdateDto> patchDocment)
         {
 
-            var city = CityDataStore.Current.Cities.FirstOrDefault(xx => xx.Id == cityId);
+            var city = CityDataStore.Cities.FirstOrDefault(xx => xx.Id == cityId);
 
             if (city == null)
             {
