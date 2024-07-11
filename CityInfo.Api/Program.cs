@@ -1,12 +1,20 @@
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .WriteTo.File("logs/cityInfo.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Logging.ClearProviders();
+//builder.Logging.ClearProviders();
+//builder.Logging.AddConsole();
 
+builder.Host.UseSerilog();
 
 
 /*
