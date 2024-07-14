@@ -16,6 +16,7 @@ namespace CityInfo.Api.Entities
         public string   Description{ get; set; } 
 
         public City? city { get; set; } //
+        
         [ForeignKey("CityId")]
         public int CityId { get; set; }
 

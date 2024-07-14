@@ -42,24 +42,28 @@ namespace CityInfo.Api.DbContexts
             modelBuilder.Entity<PointOfInterest>().HasData(
                 new PointOfInterest("Central Park")
                 {
+                    Id=1,
                     CityId = 1,
                     Description = " best centra park ever:) "
                 ,
                 },
                 new PointOfInterest("Empire State building")
                 {
+                    Id = 2,
                     CityId = 1,
                     Description = " best State building"
                 ,
                 },
                    new PointOfInterest("Notre dame de Paris")
                    {
+                       Id = 3,
                        CityId = 2,
                        Description = "Algeria"
                 ,
                    },
                    new PointOfInterest("Makame Chahid")
                    {
+                       Id = 4,
                        CityId = 2,
                        Description = "Makame"
                 ,
