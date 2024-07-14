@@ -1,4 +1,5 @@
 ﻿using CityInfo.Api.Entities;
+using CityInfo.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CityInfo.Api.DbContexts
@@ -12,8 +13,61 @@ namespace CityInfo.Api.DbContexts
         {
         }
 
-       public CityInforContext(DbContextOptions<CityInforContext> options): base(options) { 
-        
+        public CityInforContext(DbContextOptions<CityInforContext> options) : base(options)
+        {
+
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder
+                .Entity<City>()
+                .HasData(
+                new("Algiers")
+                {
+                    Id = 1,
+                },
+                new("New York")
+                {
+                    Id = 2,
+                },
+                new("Paris")
+                {
+                    Id = 3,
+                },
+                new City("Antwerp")
+                {
+                    Id = 4,
+                });
+            modelBuilder.Entity<PointOfInterest>().HasData(
+                new PointOfInterest("Central Park")
+                {
+                    CityId = 1,
+                    Description = " best centra park ever:) "
+                ,
+                },
+                new PointOfInterest("Empire State building")
+                {
+                    CityId = 1,
+                    Description = " best State building"
+                ,
+                },
+                   new PointOfInterest("Notre dame de Paris")
+                   {
+                       CityId = 2,
+                       Description = "Algeria"
+                ,
+                   },
+                   new PointOfInterest("Makame Chahid")
+                   {
+                       CityId = 2,
+                       Description = "Makame"
+                ,
+                   }
+
+
+                );
+            base.OnModelCreating(modelBuilder);
         }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
