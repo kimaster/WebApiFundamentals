@@ -11,10 +11,7 @@ namespace CityInfo.Api.Controllers
     {
         private readonly FileExtensionContentTypeProvider fileExtensionContentTypeProvider;
 
-        public FileController(FileExtensionContentTypeProvider fileExtensionContentTypeProvider)
-        {
-            this.fileExtensionContentTypeProvider = fileExtensionContentTypeProvider;
-        }
+        public FileController(FileExtensionContentTypeProvider fileExtensionContentTypeProvider) => this.fileExtensionContentTypeProvider = fileExtensionContentTypeProvider;
         // GET: api/<FileController>
         [HttpGet]
         public ActionResult Get()

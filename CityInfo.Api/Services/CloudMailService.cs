@@ -5,10 +5,7 @@
         private string _mailTo = "hakim.maakeb@hotmail.com";
         private string _mailFrom = "hakim@gmail.com";
 
-        public CloudMailService(ILogger<LocalMailService> logger)
-        {
-            Logger = logger;
-        }
+        public CloudMailService(ILogger<LocalMailService> logger) => Logger = logger;
 
         public ILogger<LocalMailService> Logger { get; }
 

@@ -6,11 +6,7 @@ namespace CityInfo.Api.Data
     {
         public List<CityDto> Cities { get; set; }
         //public static CityDataStore Current { get; } = new CityDataStore();
-        public CityDataStore()
-        {
-
-
-            Cities =
+        public CityDataStore() => Cities =
             [
                 new()
                 {
@@ -52,7 +48,6 @@ namespace CityInfo.Api.Data
 
                 },
             ];
-        }
 
 
 

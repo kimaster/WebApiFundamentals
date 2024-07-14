@@ -1,7 +1,9 @@
 using CityInfo.Api.Data;
+using CityInfo.Api.DbContexts;
 using CityInfo.Api.Services;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
@@ -74,7 +76,10 @@ builder.Services.AddTransient<IMailService,CloudMailService>();
 
 #endif
 builder.Services.AddSingleton<CityDataStore>();
+builder.Services.AddDbContext<CityInforContext>(op => op.UseSqlite("Data Source = CityInfo.db"));
 var app = builder.Build();
+
+
 
 
 // configuring middle ware that handle the httprequests

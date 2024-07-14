@@ -16,10 +16,7 @@ namespace CityInfo.Api.Controllers
     public class CitiesController : ControllerBase
     {
 
-        public CitiesController(CityDataStore cityDataStore)
-        {
-            CityDataStore = cityDataStore;
-        }
+        public CitiesController(CityDataStore cityDataStore) => CityDataStore = cityDataStore;
 
         public CityDataStore CityDataStore { get; }
 
