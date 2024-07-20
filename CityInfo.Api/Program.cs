@@ -4,7 +4,6 @@ using CityInfo.Api.Services;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -79,6 +78,24 @@ builder.Services.AddSingleton<CityDataStore>();
 builder.Services.AddDbContext<CityInforContext>(op => op.UseSqlite(
 
     builder.Configuration["ConnectionStrings:CityInfoDbConnection"]));
+//add the default scheama
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer(opt =>
+    opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Authentication:Issuer"]
+
+    });
+
+builder.Services.AddAuthorization(p => p.AddPolicy("city", pp =>
+{
+
+    pp.RequireAuthenticatedUser();
+    pp.RequireClaim("city", "anterwap");
+}));
 var app = builder.Build();
 
 

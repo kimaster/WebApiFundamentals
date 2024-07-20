@@ -1,6 +1,7 @@
 ﻿using CityInfo.Api.Data;
 using CityInfo.Api.Models;
 using CityInfo.Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ namespace CityInfo.Api.Controllers
     //[Route("api/[controller]")]
     [Route("api/cities/{cityId}/pointsofinterest")]
     [ApiController]
+    [Authorize]
     public class PointOfInterestController : ControllerBase
     {
         private readonly ILogger<PointOfInterestController> _logger;

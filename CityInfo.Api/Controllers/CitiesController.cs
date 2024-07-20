@@ -1,5 +1,6 @@
 ﻿using CityInfo.Api.Data;
 using CityInfo.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CityInfo.Api.Controllers
@@ -13,6 +14,7 @@ namespace CityInfo.Api.Controllers
     [ApiController]
     //  [Route("api/[controller]")]
     [Route("api/cities")]
+    [Authorize(Policy="city")]
     public class CitiesController : ControllerBase
     {
 
